@@ -1,0 +1,61 @@
+name: Publish to GitHub Pages
+
+on: 
+  gollum:
+  push:
+    branches:
+      - Deploy
+      - Final
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Deploy
+        uses: actions/checkout@v1
+      - name: Checkout Wiki
+        uses: actions/checkout@v2
+        with:
+          repository: 'Jie2GG/Native.Framework.wiki'
+          path: 'wiki'
+      - name: Checkout Final
+        uses: actions/checkout@v2
+        with:
+          ref: 'Final'
+          path: 'final'
+      - name: Install rename
+        run: sudo apt-get install -y mmv
+      - name: Build
+        run: |
+          mkdir public
+          mkdir public/page
+          cat > public/README.md <<EOL
+          ## 分支說明
+          GitHub Pages發佈分支，部分文件會追隨 Final及WIKI 而更新。
+          EOL
+          mv final/README.md public/page/
+          mv final/UPDATE.md public/page/
+          mv index.html public/
+          mv sw.js public/
+          mv docs/ public/
+          cp -r wiki/* public/docs/1.0
+          mv public/docs/1.0/_Footer.md public/docs/1.0/Nav.md
+          cd public/docs/1.0/
+          mmv '01*.md' 'QuickStart.md'
+          mmv '02*.md' 'Configuration.md'
+          mmv '03*.md' 'Register.md'
+          mmv '04*.md' 'Build.md'
+          mmv '05*.md' 'Window.md'
+          mmv '06*.md' 'Flow.md'
+          mmv '07*.md' 'Upgrade.md'
+          mmv '08*.md' 'Debug.md'
+          mmv '09*.md' 'Issues.md'
+      - name: Deploy
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v1
+        with:
+          target_branch: gh-pages
+          build_dir: public
+          keep_history: false
+          fqdn: native.run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
