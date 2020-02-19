@@ -10,7 +10,7 @@
   
 ## 镜像
 
-[mercujerry/wine-coolq-dotnet](https://hub.docker.com/r/mercujerry/wine-coolq-dotnet)是由[MerCuJerry](https://github.com/MerCuJerry)是基於官方镜像提供针对``.Net4.5``的应用运行支持。
+[mercujerry/wine-coolq-dotnet](https://hub.docker.com/r/mercujerry/wine-coolq-dotnet)是由[MerCuJerry](https://github.com/MerCuJerry)基於官方镜像提供针对``.Net4.5``的应用运行支持所制作的镜像。
 
 ## 使用
 
