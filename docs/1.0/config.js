@@ -51,10 +51,10 @@ let config = {
         {
 			title: '范例大全', type: 'dropdown', items: [
                 {
-                    title: '引子', path: '/Example'
+                    title: '目录', path: '/Example'
                 },
                 {
-                    title: '实作', path: '/https://github.native.run/Jie2GG/Native.Framework/tree/Example'
+                    title: '实作', path: 'https://github.native.run/Jie2GG/Native.Framework/tree/Example'
                 }
 		    ]
         },
