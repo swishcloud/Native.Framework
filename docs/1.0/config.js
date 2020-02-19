@@ -1,6 +1,6 @@
 let config = {
     title: 'Native SDK文档',
-    home: 'Home',
+    home: 'Home.md',
     repo: 'Jie2GG/Native.Framework',
     nav: [
         {
