@@ -4,7 +4,7 @@ on:
   gollum:
   push:
     branches:
-      - Deploy
+      - deploy
       - Final
 jobs:
   publish:
@@ -22,6 +22,11 @@ jobs:
         with:
           ref: 'Final'
           path: 'final'
+      - name: Checkout Example
+        uses: actions/checkout@v2
+        with:
+          ref: 'Example'
+          path: 'example'
       - name: Install rename
         run: sudo apt-get install -y mmv
       - name: Build
@@ -30,10 +35,11 @@ jobs:
           mkdir public/page
           cat > public/README.md <<EOL
           ## 分支說明
-          GitHub Pages發佈分支，部分文件會追隨 Final及WIKI 而更新。
+          GitHub Pages發佈分支，部分文件會追隨 Final及WIKI 而自動更新。
           EOL
           mv final/README.md public/page/
           mv final/UPDATE.md public/page/
+          mv example/README.md public/docs/1.0/Example.md
           mv index.html public/
           mv sw.js public/
           mv docs/ public/

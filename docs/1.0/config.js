@@ -1,6 +1,5 @@
 let config = {
     title: 'Native SDK文档',
-    home: 'Home.md',
     repo: 'Jie2GG/Native.Framework',
     nav: [
         {
@@ -44,12 +43,22 @@ let config = {
                     title: 'Docker', path: '/Docker'
                 },
                 {
-                    title: '扩展', path: '/Extension'
-                },
-                {
                     title: '常见问题', path: '/Issues'
                 }
             ]
+        },
+        {
+			title: '范例大全', type: 'dropdown', items: [
+                {
+                    title: '引子', path: '/Example'
+                },
+                {
+                    title: '实作', path: '/https://github.native.run/Jie2GG/Native.Framework/tree/Example'
+                }
+		    ]
+        },
+        {
+            title: '酷Q文库', path: 'https://docs.cqp.im/'
         }
     ],
     tocVisibleDepth: 2,
