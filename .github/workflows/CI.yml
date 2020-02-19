@@ -39,12 +39,12 @@ jobs:
           EOL
           mv final/README.md public/page/
           mv final/UPDATE.md public/page/
-          mv example/README.md public/docs/1.0/Example.md
           mv index.html public/
           mv sw.js public/
           mv docs/ public/
           cp -r wiki/* public/docs/1.0
           mv public/docs/1.0/_Footer.md public/docs/1.0/Nav.md
+          mv example/README.md public/docs/1.0/Example.md
           cd public/docs/1.0/
           mmv '01*.md' 'QuickStart.md'
           mmv '02*.md' 'Configuration.md'
