@@ -1,5 +1,6 @@
 let config = {
     title: 'Native SDK文档',
+    home: 'README',
     repo: 'Jie2GG/Native.Framework',
     nav: [
         {
