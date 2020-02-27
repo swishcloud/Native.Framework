@@ -61,6 +61,10 @@ namespace Native.Core
         {
             return cQApi.RemoveMessage(msgId);
         }
+        public int SendGroupMessage(long groupId, string message)
+        {
+            return cQApi.SendGroupMessage(groupId,message);
+        }
     }
 
     internal class Menu_OpenWindow : IMenuCall

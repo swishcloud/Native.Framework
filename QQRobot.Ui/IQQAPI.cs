@@ -10,5 +10,6 @@ namespace QQRobot.Ui
     {
         bool SetGroupMemberBanSpeak(long groupId, long qqId, TimeSpan time);
         bool RecallMessage(int msgId);
+        int SendGroupMessage(long groupId, string message);
     }
 }
