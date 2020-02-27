@@ -19,7 +19,7 @@ namespace QQRobot.Ui
             this.Load += Form1_Load;
             this.StartPosition = FormStartPosition.CenterScreen;
         }
-        
+
         static MainForm()
         {
             Instance = new MainForm();
@@ -31,7 +31,8 @@ namespace QQRobot.Ui
 
         public void Log(string str)
         {
-            this.Invoke(new Action(()=> {
+            this.Invoke(new Action(() =>
+            {
                 lbLogs.Items.Add(str);
                 lbLogs.TopIndex = lbLogs.Items.Count - 1;
             }));
@@ -39,7 +40,7 @@ namespace QQRobot.Ui
 
         private void menuBtnConfig_Click(object sender, EventArgs e)
         {
-            FormConfig.Instance.ShowDialog();
+            new FormConfig().ShowDialog();
         }
 
         protected override void OnClosing(CancelEventArgs e)

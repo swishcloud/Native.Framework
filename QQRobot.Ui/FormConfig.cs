@@ -12,8 +12,7 @@ namespace QQRobot.Ui
 {
     public partial class FormConfig : Form
     {
-        public static FormConfig Instance { get; set; }
-        private FormConfig()
+        public FormConfig()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterParent;
@@ -23,11 +22,6 @@ namespace QQRobot.Ui
                 txtRegexs.AppendText(i+"\r\n");
             }
         }
-        static FormConfig()
-        {
-            Instance = new FormConfig();
-        }
-
         private void btnSave_Click(object sender, EventArgs e)
         {
             Config.Instance.SaveRegexsConfig(txtRegexs.Text.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries));

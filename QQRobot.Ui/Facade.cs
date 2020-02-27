@@ -1,11 +1,13 @@
 ﻿using QQRobot.Ui.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using ZXing;
 
 namespace QQRobot.Ui
 {
@@ -53,6 +55,34 @@ namespace QQRobot.Ui
                 if (!QQAPI.RecallMessage(groupMessage.Id))
                 {
                     MainForm.Instance.Log("recall message failed");
+                }
+            }
+
+            foreach(var p in groupMessage.ImagePaths)
+            {
+                // create a barcode reader instance
+                IBarcodeReader reader = new BarcodeReader();
+                // load a bitmap
+                var barcodeBitmap = (Bitmap)Image.FromFile(p);
+                // detect and decode the barcode inside the bitmap
+                var result = reader.Decode(barcodeBitmap);
+                // do something with the result
+                if (result != null)
+                {
+                    var str = $"format:{ result.BarcodeFormat.ToString()} content:{ result.Text}";
+                    MainForm.Instance.Log("decoded barcode " + str);
+
+                    //ban speaking
+                    MainForm.Instance.Log($"{groupMessage.QQId} triggered ban speaking rule:prohibit sending barcode,baned for 5 days");
+                    if (!QQAPI.SetGroupMemberBanSpeak(groupMessage.GroupId, groupMessage.QQId, TimeSpan.FromDays(5)))
+                    {
+                        MainForm.Instance.Log("ban failed");
+                    }
+                    if (!QQAPI.RecallMessage(groupMessage.Id))
+                    {
+                        MainForm.Instance.Log("recall message failed");
+                    }
+                    break;
                 }
             }
         }

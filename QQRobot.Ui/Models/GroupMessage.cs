@@ -13,5 +13,6 @@ namespace QQRobot.Ui.Models
         public string Message { get;  set; }
         public long QQId{ get; set; }
         public long GroupId { get; set; }
+        public string[] ImagePaths { get; set; }
     }
 }

@@ -75,7 +75,16 @@ namespace Native.Core
     {
         public void GroupMessage(object sender, CQGroupMessageEventArgs e)
         {
-            Facade.ProcessGroupMessage(new QQRobot.Ui.Models.GroupMessage { Desc = e.ToString(), Message = e.Message.Text,QQId=e.FromQQ.Id,GroupId=e.FromGroup.Id,Id=e.Message.Id }); ;
+            var imagePaths = new List<string>();
+            foreach (var c in e.Message.CQCodes)
+            {
+                if (c.Function == Sdk.Cqp.Enum.CQFunction.Image)
+                {
+                    string filePath = e.Message.CQApi.ReceiveImage(c);
+                    imagePaths.Add(filePath);
+                }
+            }
+            Facade.ProcessGroupMessage(new QQRobot.Ui.Models.GroupMessage { Desc = e.ToString(), Message = e.Message.Text,QQId=e.FromQQ.Id,GroupId=e.FromGroup.Id,Id=e.Message.Id,ImagePaths=imagePaths.ToArray() });
         }
     }
 }
