@@ -53,7 +53,7 @@ namespace QQRobot.Ui
                     {
                         MainForm.Instance.Log("recall message failed");
                     }
-                    QQAPI.SendGroupMessage(groupMessage.GroupId, "Advertising is forbidden");
+                    QQAPI.SendGroupMessage(groupMessage.GroupId, "Forbidding Advertising!");
                     return;
                 }
             }
@@ -70,7 +70,7 @@ namespace QQRobot.Ui
                     MainForm.Instance.Log($"rule {i} is invalid,pls check config,each rule must begin with regex expression without any empty characters,followed by number which indicate ban speaking time,the two parts is separated by a empty string");
                     continue;
                 }
-                if (Regex.IsMatch(groupMessage.Message, r))
+                if (Regex.IsMatch(groupMessage.Message, r, RegexOptions.Singleline))
                 {
                     if (t > time)
                     {
@@ -90,7 +90,7 @@ namespace QQRobot.Ui
                 {
                     MainForm.Instance.Log("recall message failed");
                 }
-                QQAPI.SendGroupMessage(groupMessage.GroupId, "Advertising is forbidden");
+                QQAPI.SendGroupMessage(groupMessage.GroupId, "Forbidding Advertising!");
                 return;
             }
         }
