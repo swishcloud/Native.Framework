@@ -12,6 +12,7 @@ namespace QQRobot.Ui
         public static Config Instance { get; set; }
         private const string path_root = ".qqrobot";
         private const string path_forbidden_words_regex_config_file = path_root+ "/forbidden_words_regex_config";
+        public const string path_log = path_root + "/log";
         static Config()
         {
             Instance = new Config();

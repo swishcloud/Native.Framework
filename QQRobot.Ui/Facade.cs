@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -26,6 +27,8 @@ namespace QQRobot.Ui
         public static void ProcessGroupMessage(GroupMessage groupMessage)
         {
             MainForm.Instance.Log(groupMessage.Desc);
+            MainForm.Instance.Log("msg:"+groupMessage.Message);
+            File.AppendAllText(Config.path_log,$"desc:{groupMessage.Desc}\r\nmsg:{groupMessage.Message}\r\n");
 
 
             //check message if contains any image with barcode,if true then ban the message sender speaking for 5 days
@@ -70,7 +73,7 @@ namespace QQRobot.Ui
                     MainForm.Instance.Log($"rule {i} is invalid,pls check config,each rule must begin with regex expression without any empty characters,followed by number which indicate ban speaking time,the two parts is separated by a empty string");
                     continue;
                 }
-                if (Regex.IsMatch(groupMessage.Message, r, RegexOptions.Singleline))
+                if (Regex.IsMatch(groupMessage.Message.Replace("\r\n",""), r, RegexOptions.Singleline))
                 {
                     if (t > time)
                     {

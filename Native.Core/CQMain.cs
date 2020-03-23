@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Unity;
 
@@ -88,7 +89,9 @@ namespace Native.Core
                     imagePaths.Add(filePath);
                 }
             }
-            Facade.ProcessGroupMessage(new QQRobot.Ui.Models.GroupMessage { Desc = e.ToString(), Message = e.Message.Text,QQId=e.FromQQ.Id,GroupId=e.FromGroup.Id,Id=e.Message.Id,ImagePaths=imagePaths.ToArray() });
+            var msg = e.Message.Text;
+            msg = Regex.Replace(msg, @"\[CQ:[^\]]+\]", "", RegexOptions.Singleline);
+            Facade.ProcessGroupMessage(new QQRobot.Ui.Models.GroupMessage { Desc = e.ToString(), Message =msg,QQId=e.FromQQ.Id,GroupId=e.FromGroup.Id,Id=e.Message.Id,ImagePaths=imagePaths.ToArray() });
         }
     }
 }
