@@ -73,7 +73,7 @@ namespace QQRobot.Ui
                     MainForm.Instance.Log($"rule {i} is invalid,pls check config,each rule must begin with regex expression without any empty characters,followed by number which indicate ban speaking time,the two parts is separated by a empty string");
                     continue;
                 }
-                if (Regex.IsMatch(groupMessage.Message.Replace("\r\n",""), r, RegexOptions.Singleline))
+                if (Regex.IsMatch(groupMessage.Message, r, RegexOptions.Singleline))
                 {
                     if (t > time)
                     {
