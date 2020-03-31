@@ -23,12 +23,16 @@ namespace QQRobot.Ui
         {
             MainForm.Instance.Show();
         }
-
+        public static void Log(string log)
+        {
+            MainForm.Instance.Log(log);
+            File.AppendAllText(Config.path_log, log);
+        }
         public static void ProcessGroupMessage(GroupMessage groupMessage)
         {
-            MainForm.Instance.Log(groupMessage.Desc);
-            MainForm.Instance.Log("msg:"+groupMessage.Message);
-            File.AppendAllText(Config.path_log,$"desc:{groupMessage.Desc}\r\nmsg:{groupMessage.Message}\r\n");
+            Log(groupMessage.Desc);
+            Log("msg:" + groupMessage.Message);
+            Log($"desc:{groupMessage.Desc}\r\nmsg:{groupMessage.Message}\r\n");
 
 
             //check message if contains any image with barcode,if true then ban the message sender speaking for 5 days
@@ -44,17 +48,17 @@ namespace QQRobot.Ui
                 if (result != null)
                 {
                     var str = $"format:{ result.BarcodeFormat.ToString()} content:{ result.Text}";
-                    MainForm.Instance.Log("decoded barcode " + str);
+                    Log("decoded barcode " + str);
 
                     //ban speaking
-                    MainForm.Instance.Log($"{groupMessage.QQId} triggered ban speaking rule:prohibit sending barcode,baned for 5 days");
+                    Log($"{groupMessage.QQId} triggered ban speaking rule:prohibit sending barcode,baned for 5 days");
                     if (!QQAPI.SetGroupMemberBanSpeak(groupMessage.GroupId, groupMessage.QQId, TimeSpan.FromDays(5)))
                     {
-                        MainForm.Instance.Log("ban failed");
+                        Log("ban failed");
                     }
                     if (!QQAPI.RecallMessage(groupMessage.Id))
                     {
-                        MainForm.Instance.Log("recall message failed");
+                        Log("recall message failed");
                     }
                     QQAPI.SendGroupMessage(groupMessage.GroupId, "Forbidding Advertising!");
                     return;
@@ -70,7 +74,7 @@ namespace QQRobot.Ui
                 var r = Regex.Match(i, "[^ ]+").Value;
                 if (!int.TryParse(Regex.Match(i.Trim(Convert.ToChar(8236)), " \\d+ *$").Value, out var t))
                 {
-                    MainForm.Instance.Log($"rule {i} is invalid,pls check config,each rule must begin with regex expression without any empty characters,followed by number which indicate ban speaking time,the two parts is separated by a empty string");
+                    Log($"rule {i} is invalid,pls check config,each rule must begin with regex expression without any empty characters,followed by number which indicate ban speaking time,the two parts is separated by a empty string");
                     continue;
                 }
                 if (Regex.IsMatch(groupMessage.Message, r, RegexOptions.Singleline))
@@ -84,14 +88,14 @@ namespace QQRobot.Ui
             }
             if (time > 0)
             {
-                MainForm.Instance.Log($"{groupMessage.QQId} triggered ban speaking rule:{regex},baned for {time} seconds");
-                if(!QQAPI.SetGroupMemberBanSpeak(groupMessage.GroupId, groupMessage.QQId, TimeSpan.FromSeconds(time)))
+                Log($"{groupMessage.QQId} triggered ban speaking rule:{regex},baned for {time} seconds");
+                if (!QQAPI.SetGroupMemberBanSpeak(groupMessage.GroupId, groupMessage.QQId, TimeSpan.FromSeconds(time)))
                 {
-                    MainForm.Instance.Log("ban failed");
+                    Log("ban failed");
                 }
                 if (!QQAPI.RecallMessage(groupMessage.Id))
                 {
-                    MainForm.Instance.Log("recall message failed");
+                    Log("recall message failed");
                 }
                 QQAPI.SendGroupMessage(groupMessage.GroupId, "Forbidding Advertising!");
                 return;

@@ -5,9 +5,11 @@ using Native.Sdk.Cqp.Interface;
 using QQRobot.Ui;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Unity;
 
@@ -86,6 +88,20 @@ namespace Native.Core
                 if (c.Function == Sdk.Cqp.Enum.CQFunction.Image)
                 {
                     string filePath = e.Message.CQApi.ReceiveImage(c);
+                    if (File.Exists(filePath))
+                    {
+                        Thread.Sleep(5000);
+                        filePath = e.Message.CQApi.ReceiveImage(c);
+                        if (File.Exists(filePath))
+                        {
+                            Facade.Log($"retry receiving image succeed, 5 seconds after first receiving image failure,path:{filePath}");
+                        }
+                        else
+                        {
+                            Facade.Log($"retry receiving image failed, 5 seconds after first receiving image failure,path:{filePath},the process for this image will be abandoned");
+                            continue;
+                        }
+                    }
                     imagePaths.Add(filePath);
                 }
             }
